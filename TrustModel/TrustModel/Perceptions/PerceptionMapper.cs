@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrustModel.Features;
+using TrustModel.Features.BeliefSources;
 
-namespace TrustModel
+namespace TrustModel.Perceptions
 {
-    class Trustee
+    public class PerceptionMapper
     {
-        protected IList<Feature> features;
 
-        public void addFeatures(Feature feature)
+        private void MapBuilder ()
         {
-            features.Add(feature);
+
         }
+
+       
     }
 }

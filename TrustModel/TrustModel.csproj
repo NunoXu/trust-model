@@ -52,26 +52,44 @@
       <HintPath>..\packages\MathNet.Numerics.3.11.0\lib\net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ObjectToFileWritter, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ObjectToFileWritter.1.1.0\lib\net452\ObjectToFileWritter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Action.cs" />
-    <Compile Include="Agent.cs" />
-    <Compile Include="Features\BeliefSource.cs" />
-    <Compile Include="Features\DirectContact.cs" />
-    <Compile Include="Features\Feature.cs" />
-    <Compile Include="Trust Calculation Methods\TrustFunction.cs" />
-    <Compile Include="Trustee.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="TrustModel\Action.cs" />
+    <Compile Include="TrustModel\Agent.cs" />
+    <Compile Include="TrustModel\Features\CategoriesManager.cs" />
+    <Compile Include="TrustModel\Features\FeaturesManager.cs" />
+    <Compile Include="TrustModel\Features\BeliefSources\BeliefSource.cs" />
+    <Compile Include="TrustModel\Features\BeliefSources\Bias.cs" />
+    <Compile Include="TrustModel\Features\BeliefSources\DirectContact.cs" />
+    <Compile Include="TrustModel\Features\Feature.cs" />
+    <Compile Include="TrustModel\Features\BeliefSources\Reputation.cs" />
+    <Compile Include="TrustModel\Perceptions\Perception.cs" />
+    <Compile Include="TrustModel\Perceptions\PerceptionMapper.cs" />
+    <Compile Include="TrustModel\Trust Calculation Methods\SimpleLinear.cs" />
+    <Compile Include="TrustModel\Trust Calculation Methods\TrustFunction.cs" />
+    <Compile Include="TrustModel\Trustee.cs" />
+    <Compile Include="Start.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrustModel\TrusteeNotFoundException.cs" />
+    <Compile Include="Util\XmlHolder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -90,7 +108,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Simulation Environment\UI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\PerceptionMap.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

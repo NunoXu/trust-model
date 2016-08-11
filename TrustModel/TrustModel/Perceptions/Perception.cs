@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrustModel
+namespace TrustModel.Perceptions
 {
-    class Action
+    public abstract class Perception
     {
+        public string Name { get; set; }
+        
     }
 }

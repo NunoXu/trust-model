@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrustModel.Features
+namespace TrustModel.Features.BeliefSources
 {
-    abstract class BeliefSource
+    public abstract class BeliefSource
     {
         public abstract double BeliefValue { get; }
-        public abstract double Believability { get; }        
+        public abstract double Certainty { get; }        
     }
 }
