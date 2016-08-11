@@ -13,14 +13,13 @@ namespace TrustModel.TrustModel
     {
         public class TrustModelSettings : XmlHolder<TrustModelSettings>
         {
-            public string CategoriesXmlFilePath = "resources/categories.xml";
-            public string FeaturesXmlFilePath = "resources/features.xml";
-            public string PerceptionsXmlFilePath = "resources/perceptions.xml";
+            public string CategoriesXmlFilePath = "Resources/categories.xml";
+            public string FeaturesXmlFilePath = "Resources/features.xml";
+            public string PerceptionsXmlFilePath = "Resources/perceptions.xml";
         }
 
-        private string _settingsFilePath = "resources/modelSettings.xml";
-
-        public TrustModelSettings modelSettings;
+        private string _settingsFilePath = "Resources/modelSettings.xml";
+        private TrustModelSettings modelSettings;
 
         public CategoriesManager categoriesManager;
         public FeaturesManager featuresManager;
@@ -29,14 +28,13 @@ namespace TrustModel.TrustModel
 
         public TrustModelManager()
         {
-            modelSettings = new TrustModelSettings();
-            modelSettings.Save(_settingsFilePath);
+            modelSettings = TrustModelSettings.LoadOrCreate(_settingsFilePath);
+            LoadManagers();
         }
 
-        public TrustModelManager(string settingsFilePath)
+        public TrustModelManager(string settingsFilePath) : this()
         {
             _settingsFilePath = settingsFilePath;
-            modelSettings = TrustModelSettings.LoadOrCreate(_settingsFilePath);
         }
 
 
@@ -46,7 +44,5 @@ namespace TrustModel.TrustModel
             featuresManager = new FeaturesManager(modelSettings.FeaturesXmlFilePath);
             perceptionsManager = new PerceptionsManager(modelSettings.PerceptionsXmlFilePath);
         }
-        
-
     }
 }

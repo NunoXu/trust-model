@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrustModel.Features;
 using TrustModel.Trust_Calculation_Methods;
+using TrustModel.TrustModel;
 
 namespace TrustModel
 {
@@ -14,11 +15,7 @@ namespace TrustModel
         static void Main(string[] args)
         {
 
-            CategoriesManager fl = new CategoriesManager("a.xml");
-            Feature a = new Feature("Game Ability", "Ability");
-            fl.Categories.List.Add("adaw");
-            //fl.Categories.List.Add("Ability2");
-            fl.Save();
+            TrustModelManager model = new TrustModelManager();
 
             //Simulation.run();
             /*

@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace TrustModel.Util
 {
-    public abstract class XmlHolder<T> where T : new()
+    public abstract class XmlHolder<T> where T : XmlHolder<T>, new()
     {
 
         public static T LoadOrCreate(string filePath)
@@ -18,7 +18,11 @@ namespace TrustModel.Util
                 return Load(filePath);
             }
             else
-                return new T();
+            {
+                var instance =  new T();
+                instance.Save(filePath);
+                return instance;
+            }
         }
 
         public static T Load(string filePath)
@@ -30,6 +34,7 @@ namespace TrustModel.Util
 
         public void Save(string filePath)
         {
+            CheckDirectory(filePath);
             XmlSerializer serializer = new XmlSerializer(typeof(T));
             using (FileStream file = new FileStream(filePath, FileMode.Create))
                 serializer.Serialize(file, this);
@@ -38,6 +43,14 @@ namespace TrustModel.Util
         public static bool Exists(string filePath)
         {
             return File.Exists(filePath);
+        }
+
+
+        private static void CheckDirectory(string filePath)
+        {
+            var dirPath = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(dirPath))
+                Directory.CreateDirectory(dirPath);
         }
     }
 }
