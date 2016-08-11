@@ -14,11 +14,11 @@ namespace TrustModel
         static void Main(string[] args)
         {
 
-            CategoriesManager fl = new CategoriesManager();
+            CategoriesManager fl = new CategoriesManager("a.xml");
             Feature a = new Feature("Game Ability", "Ability");
-            //fl.Categories.List.Add(new CategoriesManager.Cate());
+            fl.Categories.List.Add("adaw");
             //fl.Categories.List.Add("Ability2");
-            fl.Load("a.xml");
+            fl.Save();
 
             //Simulation.run();
             /*

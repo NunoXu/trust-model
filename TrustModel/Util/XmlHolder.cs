@@ -8,21 +8,36 @@ using System.Xml.Serialization;
 
 namespace TrustModel.Util
 {
-    public abstract class XmlHolder<T>
+    public abstract class XmlHolder<T> where T : new()
     {
+
+        public static T LoadOrCreate(string filePath)
+        {
+            if (Exists(filePath))
+            {
+                return Load(filePath);
+            }
+            else
+                return new T();
+        }
+
         public static T Load(string filePath)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T));
-            FileStream file = new FileStream(filePath, FileMode.Open);
-            return (T) serializer.Deserialize(file);
-
+            using (FileStream file = new FileStream(filePath, FileMode.Open))
+                return (T)serializer.Deserialize(file);
         }
 
         public void Save(string filePath)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(T));
-            FileStream file = new FileStream(filePath, FileMode.Create);
-            serializer.Serialize(file, this);
+            using (FileStream file = new FileStream(filePath, FileMode.Create))
+                serializer.Serialize(file, this);
+        }
+
+        public static bool Exists(string filePath)
+        {
+            return File.Exists(filePath);
         }
     }
 }

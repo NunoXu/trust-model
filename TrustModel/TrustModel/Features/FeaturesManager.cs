@@ -21,16 +21,28 @@ namespace TrustModel.Features
 
         }
 
+        public string FeaturesFilePath;
         public FeaturesHolder Features = new FeaturesHolder();
 
-        public void Load(string filePath)
+        public FeaturesManager(string filePath)
         {
-            Features = FeaturesHolder.Load(filePath);
+            FeaturesFilePath = filePath;
+            LoadOrCreate();
         }
 
-        public void Save(string filePath)
+        public void LoadOrCreate()
         {
-            Features.Save(filePath);
+            Features = FeaturesHolder.LoadOrCreate(FeaturesFilePath);
+        }
+
+        public void Load()
+        {
+            Features = FeaturesHolder.Load(FeaturesFilePath);
+        }
+
+        public void Save()
+        {
+            Features.Save(FeaturesFilePath);
         }
         
     }

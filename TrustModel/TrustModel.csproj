@@ -47,13 +47,16 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MathNet.Numerics, Version=3.11.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MathNet.Numerics.3.11.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    <Reference Include="HelpersForNet, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HelpersForNet.1.2.2\lib\net40\HelpersForNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ObjectToFileWritter, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ObjectToFileWritter.1.1.0\lib\net452\ObjectToFileWritter.dll</HintPath>
+    <Reference Include="MathNet.Numerics, Version=3.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.3.11.0\lib\net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -82,13 +85,14 @@
     <Compile Include="TrustModel\Features\Feature.cs" />
     <Compile Include="TrustModel\Features\BeliefSources\Reputation.cs" />
     <Compile Include="TrustModel\Perceptions\Perception.cs" />
-    <Compile Include="TrustModel\Perceptions\PerceptionMapper.cs" />
+    <Compile Include="TrustModel\Perceptions\PerceptionsManager.cs" />
     <Compile Include="TrustModel\Trust Calculation Methods\SimpleLinear.cs" />
     <Compile Include="TrustModel\Trust Calculation Methods\TrustFunction.cs" />
     <Compile Include="TrustModel\Trustee.cs" />
     <Compile Include="Start.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrustModel\TrusteeNotFoundException.cs" />
+    <Compile Include="TrustModel\TrustModelManager.cs" />
     <Compile Include="Util\XmlHolder.cs" />
   </ItemGroup>
   <ItemGroup>
