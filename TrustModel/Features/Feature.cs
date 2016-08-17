@@ -11,7 +11,6 @@ namespace TrustModel.Features
     public class Feature
     {
         protected List<BeliefSource> beliefs = new List<BeliefSource>();
-
         protected List<Feature> childFeatures;
         protected List<Feature> parentFeatures;
 

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrustModel", "TrustModel\Tr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrustPlugin", "..\..\Scenario\RCController\TrustPlugin\TrustPlugin.csproj", "{F3C3B08D-7B5F-40A7-9F8C-59AAB6487700}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrustPluginTester", "TrustPluginTester\TrustPluginTester.csproj", "{E4AEE2EB-5476-4B30-901E-7513A1C61761}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrustModelTester", "TrustModelTester\TrustModelTester\TrustModelTester.csproj", "{AD35C35E-0E89-432A-BEAC-0DF9B2E20A74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{F3C3B08D-7B5F-40A7-9F8C-59AAB6487700}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3C3B08D-7B5F-40A7-9F8C-59AAB6487700}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3C3B08D-7B5F-40A7-9F8C-59AAB6487700}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E4AEE2EB-5476-4B30-901E-7513A1C61761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E4AEE2EB-5476-4B30-901E-7513A1C61761}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E4AEE2EB-5476-4B30-901E-7513A1C61761}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E4AEE2EB-5476-4B30-901E-7513A1C61761}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD35C35E-0E89-432A-BEAC-0DF9B2E20A74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD35C35E-0E89-432A-BEAC-0DF9B2E20A74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD35C35E-0E89-432A-BEAC-0DF9B2E20A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD35C35E-0E89-432A-BEAC-0DF9B2E20A74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
