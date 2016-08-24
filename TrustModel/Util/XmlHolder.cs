@@ -3,18 +3,31 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace TrustModel.Util
 {
-    public abstract class XmlHolder<T> where T : XmlHolder<T>, new()
+    public abstract class XmlHolder<T>: INotifyPropertyChanged
+        where T : XmlHolder<T>, new()
     {
         [NonSerialized]
-        private string _lastFilePath;
+        protected string _lastFilePath;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        
+        protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
 
         public static T LoadOrCreate(string filePath)

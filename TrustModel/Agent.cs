@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using TrustModel.Trust_Calculation_Methods;
 using TrustModel.Util;
+using Utils;
 
 namespace TrustModel
 {
@@ -43,7 +44,7 @@ namespace TrustModel
         [XmlElement(Order = 2)]
         public SerializableDictionary<string, Trustee> Trustees { get; set; } = new SerializableDictionary<string, Trustee>();
 
-        public Agent() : this("Joe") { }
+        public Agent() : this(Guid.NewGuid().ToString()) { }
 
         public Agent(string name)
         {

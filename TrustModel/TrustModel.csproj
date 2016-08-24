@@ -93,10 +93,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrusteeNotFoundException.cs" />
     <Compile Include="TrustModelManager.cs" />
-    <Compile Include="Util\ObservableDictionary.cs" />
-    <Compile Include="Util\SerializableDictionary.cs" />
     <Compile Include="Util\ManagerSingleton.cs" />
-    <Compile Include="Util\Singleton.cs" />
     <Compile Include="Util\XmlCollectionHolder.cs" />
     <Compile Include="Util\XmlElementType.cs" />
     <Compile Include="Util\XmlHolder.cs" />
@@ -123,6 +120,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\PerceptionMap.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Utils\Utils.csproj">
+      <Project>{a388c895-ab3c-4c40-b65d-fbbd8aeae32d}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

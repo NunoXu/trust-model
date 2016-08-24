@@ -14,13 +14,13 @@ namespace TrustModel.Perceptions
     public class PerceptionsManager : ManagerSingleton<PerceptionsManager>
     {
         [Serializable, XmlRoot("Perceptions"), XmlType("Perceptions")]
-        public class PerceptionsHolder : XmlCollectionHolder<PerceptionsHolder, string>
+        public class PerceptionsHolder : XmlCollectionHolder<PerceptionsHolder, Perception>
         {
             [XmlElement("Perception")]
-            public override ObservableCollection<string> List { get; set; } = new ObservableCollection<string>();
+            public override ObservableCollection<Perception> List { get; set; } = new ObservableCollection<Perception>();
         }
 
-        public PerceptionsHolder Perceptions;
+        public PerceptionsHolder Perceptions = new PerceptionsHolder();
 
 
         public override void LoadOrCreate()

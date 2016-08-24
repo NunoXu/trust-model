@@ -32,7 +32,7 @@ namespace TrustModel.Features
 
         public Feature ()
         {
-            name = "Ability A";
+            name = Guid.NewGuid().ToString();
             category = "Ability";
 
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utils;
 
 namespace TrustModel.Util
 {
@@ -16,7 +17,7 @@ namespace TrustModel.Util
             {
                 return _filePath;
             }
-            set
+            internal set
             {
                 _filePath = value;
                 LoadOrCreate();
