@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using TrustModel.Features.BeliefSources;
@@ -8,14 +10,17 @@ using TrustModel.Features.BeliefSources;
 namespace TrustModel.Features
 {
     [Serializable]
-    public class Feature
+    public class Feature : INotifyPropertyChanged
     {
         protected List<BeliefSource> beliefs = new List<BeliefSource>();
         protected List<Feature> childFeatures;
         protected List<Feature> parentFeatures;
 
-        public string name { get; set; }
-        public string category { get; set; }
+        private string _name;
+        public string Name { get { return _name; } set { _name = value; NotifyPropertyChanged(); } }
+
+
+        public Category Category { get; set; }
         public double beliefValue
         {
             get
@@ -30,17 +35,26 @@ namespace TrustModel.Features
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
         public Feature ()
         {
-            name = Guid.NewGuid().ToString();
-            category = "Ability";
+            Name = Guid.NewGuid().ToString();
+            Category = new Category();
 
         }
 
-        public Feature (string name, string category)
+        public Feature (string name, Category category)
         {
-            this.name = name;
-            this.category = category;
+            this.Name = name;
+            this.Category = category;
         }
         
         public override bool Equals(object obj)
@@ -51,7 +65,7 @@ namespace TrustModel.Features
             }
 
             Feature featureObj = (Feature)obj;
-            if (featureObj.name == this.name && featureObj.category == this.category)
+            if (featureObj.Name == this.Name && featureObj.Category == this.Category)
                 return true;
             else
                 return base.Equals(obj);
@@ -60,7 +74,7 @@ namespace TrustModel.Features
 
         public override int GetHashCode()
         {
-            return name.GetHashCode() + category.GetHashCode();
+            return Name.GetHashCode() + Category.GetHashCode();
         }
 
 

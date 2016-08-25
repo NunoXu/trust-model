@@ -10,14 +10,14 @@ namespace TrustModel.Features
     public class CategoriesManager : ManagerSingleton<CategoriesManager>
     {
         [Serializable, XmlRoot("Categories"), XmlType("Categories")]
-        public class CategoriesHolder : XmlCollectionHolder<CategoriesHolder, string>
+        public class CategoriesHolder : XmlCollectionHolder<CategoriesHolder, Category>
         {
             [XmlElement("Category")]
-            public override ObservableCollection<string> List { get; set; } = new ObservableCollection<string>();
+            public override ObservableCollection<Category> List { get; set; } = new ObservableCollection<Category>();
         }
 
 
-        public CategoriesHolder Categories;
+        public CategoriesHolder Categories = new CategoriesHolder();
 
 
         public override void LoadOrCreate()
@@ -33,6 +33,11 @@ namespace TrustModel.Features
         public override void Save()
         {
             Categories.Save(FilePath);
+        }
+
+        protected override void InObjectLoad()
+        {
+            Categories.InObjectLoad(FilePath);
         }
     }
 }

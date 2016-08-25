@@ -40,6 +40,10 @@ namespace TrustModel.Features
         {
             Features.Save(FilePath);
         }
-        
+
+        protected override void InObjectLoad()
+        {
+            Features.InObjectLoad(FilePath);
+        }
     }
 }

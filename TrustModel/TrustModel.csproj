@@ -79,6 +79,7 @@
     <Compile Include="Agent.cs" />
     <Compile Include="AgentsManager.cs" />
     <Compile Include="Features\CategoriesManager.cs" />
+    <Compile Include="Features\Category.cs" />
     <Compile Include="Features\FeaturesManager.cs" />
     <Compile Include="Features\BeliefSources\BeliefSource.cs" />
     <Compile Include="Features\BeliefSources\Bias.cs" />

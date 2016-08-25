@@ -41,5 +41,10 @@ namespace TrustModel
         {
             Agents.Save(FilePath);
         }
+
+        protected override void InObjectLoad()
+        {
+            Agents.InObjectLoad(FilePath);
+        }
     }
 }

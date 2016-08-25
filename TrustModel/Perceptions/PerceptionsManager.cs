@@ -20,12 +20,26 @@ namespace TrustModel.Perceptions
             public override ObservableCollection<Perception> List { get; set; } = new ObservableCollection<Perception>();
         }
 
-        public PerceptionsHolder Perceptions = new PerceptionsHolder();
+        private PerceptionsHolder _perceptions = new PerceptionsHolder();
+
+        public PerceptionsHolder Perceptions
+        {
+            get
+            {
+                return _perceptions;
+            }
+            set
+            {
+                _perceptions = value;
+                NotifyPropertyChanged();
+            }
+        }
 
 
         public override void LoadOrCreate()
         {
             Perceptions = PerceptionsHolder.LoadOrCreate(FilePath);
+            
         }
 
         public override void Load()
@@ -38,6 +52,9 @@ namespace TrustModel.Perceptions
             Perceptions.Save(FilePath);
         }
 
-
+        protected override void InObjectLoad()
+        {
+            Perceptions.InObjectLoad(FilePath);
+        }
     }
 }
