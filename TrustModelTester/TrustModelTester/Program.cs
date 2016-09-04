@@ -1,9 +1,11 @@
-﻿using System;
+﻿using HelpersForNet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrustModel;
+using TrustModel.Features;
 
 namespace TrustModelTester
 {
@@ -13,12 +15,19 @@ namespace TrustModelTester
         {
             TrustModelManager model = new TrustModelManager();
             var bob = new Agent("BOB");
-            AgentsManager.Instance.Agents.List.Add(bob);
+            Singleton<AgentsManager>.Instance.Agents.Add(bob);
             var ana = new Agent("Ana");
-            AgentsManager.Instance.Agents.List.Add(ana);
+            Singleton<AgentsManager>.Instance.Agents.Add(ana);
             var t = new Trustee(ana);
-            bob.Trustees.Add(t.Agent.Name, t);
-            AgentsManager.Instance.Save();
+            bob.AddTrustee(t);
+            Singleton<AgentsManager>.Instance.Save();
+
+            Singleton<FeaturesManager>.Instance.Features.Add(new FeatureModel("A", new Category()));
+            Singleton<FeaturesManager>.Instance.Save();
+            /*foreach(Feature feature in FeaturesManager.Instance.Features.List)
+            {
+                
+            }*/
         }
     }
 }

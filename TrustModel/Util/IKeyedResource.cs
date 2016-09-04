@@ -7,8 +7,11 @@ using System.Xml.Serialization;
 
 namespace TrustModel.Util
 {
-    public class XmlElementTypeAttribute : XmlElementAttribute
+    public interface IKeyedResource<T>
     {
- 
+        [XmlIgnore]
+        T Key { get; }
+        [XmlIgnore]
+        bool Deleted { get; set; }
     }
 }

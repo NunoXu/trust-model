@@ -11,21 +11,21 @@ namespace TrustModel
     public class Action
     {
         public string name { get; protected set; }
-        protected Dictionary<Feature, double> weightedFeatures;
+        protected Dictionary<FeatureModel, double> weightedFeatures;
 
 
         public Action (string name)
         {
             this.name = name;
-            this.weightedFeatures = new Dictionary<Feature, double>();
+            this.weightedFeatures = new Dictionary<FeatureModel, double>();
         }
 
-        public IReadOnlyDictionary<Feature, double> getWeightedFeatures()
+        public IReadOnlyDictionary<FeatureModel, double> getWeightedFeatures()
         {
-            return new ReadOnlyDictionary<Feature, double>(weightedFeatures);
+            return new ReadOnlyDictionary<FeatureModel, double>(weightedFeatures);
         }
         
-        public void addFeature(Feature feature, double weight)
+        public void addFeature(FeatureModel feature, double weight)
         {
             weightedFeatures.Add(feature, weight);
         }

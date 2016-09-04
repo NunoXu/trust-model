@@ -6,32 +6,85 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using TrustModel.Features;
+using TrustModel.Features.BeliefSources;
+using TrustModel.Util;
+using static TrustModel.Perceptions.PerceptionModel;
 
 namespace TrustModel.Perceptions
 {
-    [Serializable]
     public class Perception : INotifyPropertyChanged
     {
-        private string _name = "";
+        public PerceptionModel PerceptionId { get; set; }
 
-        [XmlElement]
-        public string Name
+        public Perception() : base() { }
+
+        public Perception(PerceptionModel perceptionId) : this()
+        {
+            PerceptionId = perceptionId;
+        }
+
+        public Perception(PerceptionModel perceptionId, double beliefValue, double certainty) : this(perceptionId)
+        {
+            BeliefValue = beliefValue;
+            Certainty = certainty;
+        }
+
+        [XmlIgnore]
+        private double _beliefValue;
+
+        [XmlIgnore]
+        private double _certainty;
+
+        public double BeliefValue
         {
             get
             {
-                return _name;
+                return _beliefValue;
             }
             set
             {
-                _name = value;
+                _beliefValue = value;
                 NotifyPropertyChanged();
             }
-        } 
-
-        public Perception()
-        {
-            _name = Guid.NewGuid().ToString();
         }
+        public double Certainty
+        {
+            get
+            {
+                return _certainty;
+            }
+            set
+            {
+                _certainty = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+        public XmlPersistentCollectionHolder<string, Agent, AgentsManager> AffectedAgents { get; set; }
+        public XmlPersistentCollectionHolder<string, Agent, AgentsManager> TargetTrustees { get; set; }
+        public XmlPersistentCollectionHolder<string, FeatureModel, FeaturesManager> FeaturesToSpawn { get; set; }
+        public BeliefType TypeOfBeliefSource { get; set; }
+
+        public void UpdateModel()
+        {
+            foreach (Agent agent in AffectedAgents.List)
+            {
+                List<Feature> features = new List<Feature>();
+                foreach (FeatureModel featureModel in FeaturesToSpawn.List)
+                {
+                    var feature = featureModel.GetAgentFeature();
+
+                    /* Quick fix, belief source should be vary between DirectContact and Reputation */
+                    var beliefSource = new DirectContact(BeliefValue, Certainty);
+                    feature.AddBeliefSource(beliefSource);
+                    features.Add(feature);
+                }
+                agent.UpdateTrustees(TargetTrustees.List, features);
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -41,29 +94,5 @@ namespace TrustModel.Perceptions
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-/*
-        public override bool Equals(object obj)
-        {
-            // If parameter is null return false.
-            if (obj == null)
-            {
-                return false;
-            }
-
-            // If parameter cannot be cast to Point return false.
-            Perception p = obj as Perception;
-            if ((System.Object)p == null)
-            {
-                return false;
-            }
-
-            // Return true if the fields match:
-            return (Name == p.Name);
-        }
-
-        public override int GetHashCode()
-        {
-            return Name.GetHashCode();
-        }*/
     }
 }

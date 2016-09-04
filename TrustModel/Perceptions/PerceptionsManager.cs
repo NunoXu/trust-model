@@ -8,16 +8,16 @@ using System.Xml.Serialization;
 using TrustModel.Features;
 using TrustModel.Features.BeliefSources;
 using TrustModel.Util;
+using Utils;
 
 namespace TrustModel.Perceptions
 {
-    public class PerceptionsManager : ManagerSingleton<PerceptionsManager>
+    public class PerceptionsManager : ManagerSingleton<PerceptionsManager, string, PerceptionModel>
     {
         [Serializable, XmlRoot("Perceptions"), XmlType("Perceptions")]
-        public class PerceptionsHolder : XmlCollectionHolder<PerceptionsHolder, Perception>
+        public class PerceptionsHolder : ResourceHolder<PerceptionsHolder>
         {
-            [XmlElement("Perception")]
-            public override ObservableCollection<Perception> List { get; set; } = new ObservableCollection<Perception>();
+            public override SerializableDictionary<string, PerceptionModel> Map { get; set; } = new SerializableDictionary<string, PerceptionModel>();
         }
 
         private PerceptionsHolder _perceptions = new PerceptionsHolder();
@@ -28,13 +28,20 @@ namespace TrustModel.Perceptions
             {
                 return _perceptions;
             }
-            set
+            private set
             {
                 _perceptions = value;
                 NotifyPropertyChanged();
             }
         }
 
+        public override SerializableDictionary<string, PerceptionModel> ResourceMap
+        {
+            get
+            {
+                return _perceptions.Map;
+            }
+        }
 
         public override void LoadOrCreate()
         {

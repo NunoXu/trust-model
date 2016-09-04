@@ -1,38 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using TrustModel.Features.BeliefSources;
 
 namespace TrustModel.Features
 {
-    [Serializable]
-    public class Feature : INotifyPropertyChanged
+    public class Feature: INotifyPropertyChanged
     {
-        protected List<BeliefSource> beliefs = new List<BeliefSource>();
-        protected List<Feature> childFeatures;
-        protected List<Feature> parentFeatures;
+        public ObservableCollection<BeliefSource> BeliefSources = new ObservableCollection<BeliefSource>();
 
-        private string _name;
-        public string Name { get { return _name; } set { _name = value; NotifyPropertyChanged(); } }
+        public FeatureModel FeatureID { get; set; }
 
+        public Feature (FeatureModel featureID)
+        {
+            FeatureID = featureID;
+        }
 
-        public Category Category { get; set; }
         public double beliefValue
         {
             get
             {
                 double totalBelief = 0;
-                foreach (BeliefSource belief in beliefs)
+                foreach (BeliefSource belief in BeliefSources)
                 {
                     totalBelief += belief.BeliefValue * belief.Certainty;
                 }
 
-                return totalBelief / beliefs.Count;
+                return totalBelief / BeliefSources.Count;
             }
+        }
+
+        public void AddBeliefSource(BeliefSource source)
+        {
+            BeliefSources.Add(source);
         }
 
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
@@ -44,43 +50,12 @@ namespace TrustModel.Features
             }
         }
 
-        public Feature ()
+        internal void AddBeliefSources(ObservableCollection<BeliefSource> beliefSources)
         {
-            Name = Guid.NewGuid().ToString();
-            Category = new Category();
-
-        }
-
-        public Feature (string name, Category category)
-        {
-            this.Name = name;
-            this.Category = category;
-        }
-        
-        public override bool Equals(object obj)
-        {
-            if (obj == null || GetType() != obj.GetType())
+            foreach(BeliefSource beliefSource in beliefSources)
             {
-                return false;
+                beliefSources.Add(beliefSource);
             }
-
-            Feature featureObj = (Feature)obj;
-            if (featureObj.Name == this.Name && featureObj.Category == this.Category)
-                return true;
-            else
-                return base.Equals(obj);
-        }
-        
-
-        public override int GetHashCode()
-        {
-            return Name.GetHashCode() + Category.GetHashCode();
-        }
-
-
-        public void AddBeliefSource(BeliefSource source)
-        {
-            beliefs.Add(source);
         }
     }
 }

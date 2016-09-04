@@ -9,22 +9,39 @@ using System.Xml.Serialization;
 using TrustModel.Features;
 using TrustModel.Features.BeliefSources;
 using TrustModel.Util;
+using Utils;
 
 namespace TrustModel.Features
 {
-    public class FeaturesManager : ManagerSingleton<FeaturesManager>
+    public class FeaturesManager : ManagerSingleton<FeaturesManager, string, FeatureModel>
     {
         [Serializable, XmlRoot("Features"), XmlType("Features")]
-        public class FeaturesHolder : XmlCollectionHolder<FeaturesHolder, Feature>
+        public class FeaturesHolder : ResourceHolder<FeaturesHolder>
         {
-            [XmlElement("Feature")]
-            public override ObservableCollection<Feature> List { get; set; } = new ObservableCollection<Feature>();
+            public override SerializableDictionary<string, FeatureModel> Map { get; set; } = new SerializableDictionary<string, FeatureModel>();
         }
 
-    
+        private FeaturesHolder _features = new FeaturesHolder();
+        public FeaturesHolder Features
+        {
+            get
+            {
+                return _features;
+            }
+            private set
+            {
+                _features = value;
+                NotifyPropertyChanged();
+            }
+        }
 
-        public FeaturesHolder Features = new FeaturesHolder();
-
+        public override SerializableDictionary<string, FeatureModel> ResourceMap
+        {
+            get
+            {
+                return Features.Map;
+            }
+        }
 
         public override void LoadOrCreate()
         {

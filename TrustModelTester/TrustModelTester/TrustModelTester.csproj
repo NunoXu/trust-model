@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HelpersForNet">
+      <HintPath>..\..\..\..\Scenario\RCController\packages\HelpersForNet.1.1.2\lib\net40\HelpersForNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,6 +53,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Utils\Utils.csproj">
+      <Project>{a388c895-ab3c-4c40-b65d-fbbd8aeae32d}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\TrustModel\TrustModel.csproj">
       <Project>{f9f89397-a197-474b-99c4-f45cd1db1024}</Project>
       <Name>TrustModel</Name>

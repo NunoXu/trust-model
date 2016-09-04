@@ -4,21 +4,28 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Xml.Serialization;
 using TrustModel.Util;
+using Utils;
 
 namespace TrustModel.Features
 {
-    public class CategoriesManager : ManagerSingleton<CategoriesManager>
+    public class CategoriesManager : ManagerSingleton<CategoriesManager, string, Category>
     {
         [Serializable, XmlRoot("Categories"), XmlType("Categories")]
-        public class CategoriesHolder : XmlCollectionHolder<CategoriesHolder, Category>
+        public class CategoriesHolder : ResourceHolder<CategoriesHolder>
         {
-            [XmlElement("Category")]
-            public override ObservableCollection<Category> List { get; set; } = new ObservableCollection<Category>();
+            public override SerializableDictionary<string, Category> Map { get; set; } = new SerializableDictionary<string, Category>();
         }
 
 
         public CategoriesHolder Categories = new CategoriesHolder();
 
+        public override SerializableDictionary<string, Category> ResourceMap
+        {
+            get
+            {
+                return Categories.Map;
+            }
+        }
 
         public override void LoadOrCreate()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HelpersForNet;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace TrustModel
                 set {
                     _categoriesXmlFilePath = value;
                     NotifyPropertyChanged();
-                    CategoriesManager.Instance.FilePath = _categoriesXmlFilePath;
+                    Singleton<CategoriesManager>.Instance.FilePath = _categoriesXmlFilePath;
                     Save();
                 }
             }
@@ -32,7 +33,7 @@ namespace TrustModel
                 set {
                     _featuresXmlFilePath = value;
                     NotifyPropertyChanged();
-                    FeaturesManager.Instance.FilePath = _featuresXmlFilePath;
+                    Singleton<FeaturesManager>.Instance.FilePath = _featuresXmlFilePath;
                     Save();
                 } }
 
@@ -42,7 +43,7 @@ namespace TrustModel
                 set {
                     _perceptionsXmlFilePath = value;
                     NotifyPropertyChanged();
-                    PerceptionsManager.Instance.FilePath = _perceptionsXmlFilePath;
+                    Singleton<PerceptionsManager>.Instance.FilePath = _perceptionsXmlFilePath;
                     Save();
                 } }
 
@@ -52,7 +53,7 @@ namespace TrustModel
                 set {
                     _agentsXmlFilePath = value;
                     NotifyPropertyChanged();
-                    AgentsManager.Instance.FilePath = _agentsXmlFilePath;
+                    Singleton<AgentsManager>.Instance.FilePath = _agentsXmlFilePath;
                     Save();
                 } }
             
@@ -120,10 +121,10 @@ namespace TrustModel
 
         private void LoadManagers()
         {
-            CategoriesManager.Instance.FilePath = ModelSettings.CategoriesXmlFilePath;
-            FeaturesManager.Instance.FilePath = ModelSettings.FeaturesXmlFilePath;
-            PerceptionsManager.Instance.FilePath = ModelSettings.PerceptionsXmlFilePath;
-            AgentsManager.Instance.FilePath = ModelSettings.AgentsXmlFilePath;
+            Singleton<CategoriesManager>.Instance.FilePath = ModelSettings.CategoriesXmlFilePath;
+            Singleton<FeaturesManager>.Instance.FilePath = ModelSettings.FeaturesXmlFilePath;
+            Singleton<PerceptionsManager>.Instance.FilePath = ModelSettings.PerceptionsXmlFilePath;
+            Singleton<AgentsManager>.Instance.FilePath = ModelSettings.AgentsXmlFilePath;
         }
     }
 }

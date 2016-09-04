@@ -7,25 +7,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using TrustModel.Util;
+using Utils;
 
 namespace TrustModel
 {
-    public class AgentsManager : ManagerSingleton<AgentsManager>
+    public class AgentsManager : ManagerSingleton<AgentsManager, string, Agent>
     {
         [Serializable, XmlRoot("Agents"), XmlType("Agents")]
-        public class AgentsHolder : XmlCollectionHolder<AgentsHolder, Agent>
+        public class AgentsHolder : ResourceHolder<AgentsHolder>
         {
-            [XmlElement("Agent")]
-            public override ObservableCollection<Agent> List { get; set; } = new ObservableCollection<Agent>();
-
-            public Agent GetByName(string name)
-            {
-                return List.FirstOrDefault(agent => agent.Name == name);
-            }
+            public override SerializableDictionary<string, Agent> Map { get; set; } = new SerializableDictionary<string, Agent>();
         }
-        
+
+
+
         public AgentsHolder Agents = new AgentsHolder();
 
+        public override SerializableDictionary<string, Agent> ResourceMap
+        {
+            get
+            {
+                return Agents.Map;
+            }
+            
+        }
 
         public override void LoadOrCreate()
         {

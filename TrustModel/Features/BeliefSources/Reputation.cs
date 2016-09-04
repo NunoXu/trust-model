@@ -13,7 +13,23 @@ namespace TrustModel.Features.BeliefSources
 
         public override double BeliefValue
         {
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override double BeliefValue
+        {
             get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override double Certainty
+        {
+            set
             {
                 throw new NotImplementedException();
             }

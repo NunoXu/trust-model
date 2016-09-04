@@ -8,7 +8,7 @@ namespace TrustModel.Features.BeliefSources
 {
     public abstract class BeliefSource
     {
-        public abstract double BeliefValue { get; }
-        public abstract double Certainty { get; }        
+        public abstract double BeliefValue { get; set; }
+        public abstract double Certainty { get; set; }        
     }
 }

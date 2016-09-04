@@ -80,13 +80,15 @@
     <Compile Include="AgentsManager.cs" />
     <Compile Include="Features\CategoriesManager.cs" />
     <Compile Include="Features\Category.cs" />
+    <Compile Include="Features\Feature.cs" />
     <Compile Include="Features\FeaturesManager.cs" />
     <Compile Include="Features\BeliefSources\BeliefSource.cs" />
     <Compile Include="Features\BeliefSources\Bias.cs" />
     <Compile Include="Features\BeliefSources\DirectContact.cs" />
-    <Compile Include="Features\Feature.cs" />
+    <Compile Include="Features\FeatureModel.cs" />
     <Compile Include="Features\BeliefSources\Reputation.cs" />
     <Compile Include="Perceptions\Perception.cs" />
+    <Compile Include="Perceptions\PerceptionModel.cs" />
     <Compile Include="Perceptions\PerceptionsManager.cs" />
     <Compile Include="Trust Calculation Methods\SimpleLinear.cs" />
     <Compile Include="Trust Calculation Methods\TrustFunction.cs" />
@@ -94,10 +96,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrusteeNotFoundException.cs" />
     <Compile Include="TrustModelManager.cs" />
+    <Compile Include="Util\IKeyedResource.cs" />
     <Compile Include="Util\ManagerSingleton.cs" />
     <Compile Include="Util\XmlCollectionHolder.cs" />
-    <Compile Include="Util\XmlElementType.cs" />
+    <Compile Include="Util\XmlDictionaryHolder.cs" />
     <Compile Include="Util\XmlHolder.cs" />
+    <Compile Include="Util\XmlPersistentCollectionHolder.cs" />
+    <Compile Include="Util\XmlPersistentHolder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

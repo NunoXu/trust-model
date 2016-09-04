@@ -1,17 +1,21 @@
-﻿using System;
+﻿using HelpersForNet;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using TrustModel.Features;
+using TrustModel.Features.BeliefSources;
 
 namespace TrustModel
 {
     [Serializable]
     public class Trustee
     {
-        public List<Feature> features = new List<Feature>();
+        public ObservableCollection<Feature> features { get; set; } = new ObservableCollection<Feature>();
+        
 
         [XmlIgnore]
         [NonSerialized]
@@ -23,7 +27,7 @@ namespace TrustModel
             get
             {
                 if (_agent == null)
-                    _agent = AgentsManager.Instance.Agents.GetByName(AgentName);
+                    _agent = Singleton<AgentsManager>.Instance.Agents[AgentName];
                 return _agent;
             }
 
@@ -55,14 +59,53 @@ namespace TrustModel
             AgentName = agent.Name;
         }
 
-        public void addFeatures(Feature feature)
+        public void UpdateFeature(Feature feature)
+        {
+            Feature targetFeature;
+            if (!features.Contains(feature, new FeatureComparer())) {
+                features.Add(feature);
+                targetFeature = feature;
+            } else
+            {
+                targetFeature = features.FirstOrDefault(x => x.FeatureID.Equals(feature.FeatureID));
+            }
+
+            targetFeature.AddBeliefSources(feature.BeliefSources);
+        }
+
+        public void AddFeatures(Feature feature)
         {
             features.Add(feature);
         }
 
-        public IList<Feature> getFeatures()
+        private class FeatureComparer : IEqualityComparer<Feature>
         {
-            return features.AsReadOnly();
+            // Features are equal if their FeaturesID are equal.
+            public bool Equals(Feature x, Feature y)
+            {
+
+                //Check whether the compared objects reference the same data.
+                if (Object.ReferenceEquals(x, y)) return true;
+
+                //Check whether any of the compared objects is null.
+                if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
+                    return false;
+
+                //Check whether the features' properties are equal.
+                return x.FeatureID.Equals(y.FeatureID);
+            }
+
+            // If Equals() returns true for a pair of objects 
+            // then GetHashCode() must return the same value for these objects.
+
+            public int GetHashCode(Feature feature)
+            {
+                //Check whether the object is null
+                if (Object.ReferenceEquals(feature, null)) return 0;
+
+                return feature.FeatureID.GetHashCode();
+            }
+
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using TrustModel.Features;
 using TrustModel.Trust_Calculation_Methods;
 using TrustModel.Util;
 using Utils;
@@ -15,7 +16,7 @@ using Utils;
 namespace TrustModel
 {
     [Serializable]
-    public class Agent : INotifyPropertyChanged
+    public class Agent : INotifyPropertyChanged, IKeyedResource<string>
     {
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
         private void OnPropertyChanged(string property)
@@ -37,12 +38,19 @@ namespace TrustModel
             {
                 _name = value;
                 OnPropertyChanged("Name");
+                OnPropertyChanged("Key");
             }
         }
-        
+
+        [XmlIgnore]
+        public string Key { get { return Name; } }
+
 
         [XmlElement(Order = 2)]
-        public SerializableDictionary<string, Trustee> Trustees { get; set; } = new SerializableDictionary<string, Trustee>();
+        public ObservableDictionary<string, Trustee> Trustees { get; set; } = new ObservableDictionary<string, Trustee>();
+
+        [XmlIgnore]
+        public bool Deleted { get; set; } = false;
 
         public Agent() : this(Guid.NewGuid().ToString()) { }
 
@@ -69,7 +77,6 @@ namespace TrustModel
 
         public void AddTrustee(Trustee trustee)
         {
-
             Trustees.Add(trustee.AgentName, trustee);
             trustee.Agent.PropertyChanged += OnAgentNameChanged;
         }
@@ -96,7 +103,7 @@ namespace TrustModel
         }
 
 
-        private Trustee getTrustee(Agent targetAgent)
+        private Trustee GetTrustee(Agent targetAgent)
         {
             foreach (Trustee trustee in Trustees.Values)
             {
@@ -105,7 +112,7 @@ namespace TrustModel
                     return trustee;
                 }
             }
-            throw new TrusteeNotFoundException("Trustee " + targetAgent.Name + " not found in agent " + this.Name + ".");
+            return null;
         }
 
         private void PopulateTrustees(ObservableCollection<Trustee> list)
@@ -124,5 +131,20 @@ namespace TrustModel
                 trustee.Agent.PropertyChanged += OnAgentNameChanged;
         }
         
+        public void UpdateTrustees(IEnumerable<Agent> trustees, IEnumerable<Feature> features)
+        {
+            foreach(Agent trustee in trustees)
+            {
+                var targetTrustee = GetTrustee(trustee);
+                if (targetTrustee == null)
+                {
+                    targetTrustee = new Trustee(trustee);
+                }
+                foreach (Feature feature in features)
+                {
+                    targetTrustee.UpdateFeature(feature);
+                }
+            }
+        }
     }
 }
