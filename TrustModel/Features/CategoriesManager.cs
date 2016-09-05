@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 using TrustModel.Util;
 using Utils;
@@ -10,6 +12,8 @@ namespace TrustModel.Features
 {
     public class CategoriesManager : ManagerSingleton<CategoriesManager, string, Category>
     {
+        
+
         [Serializable, XmlRoot("Categories"), XmlType("Categories")]
         public class CategoriesHolder : ResourceHolder<CategoriesHolder>
         {

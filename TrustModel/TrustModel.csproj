@@ -75,7 +75,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Action.cs" />
+    <Compile Include="Actions\TrustAction.cs" />
+    <Compile Include="Actions\ActionsManager.cs" />
     <Compile Include="Agent.cs" />
     <Compile Include="AgentsManager.cs" />
     <Compile Include="Features\CategoriesManager.cs" />

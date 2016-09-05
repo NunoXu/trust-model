@@ -24,10 +24,18 @@ namespace TrustModel.Perceptions
             PerceptionId = perceptionId;
         }
 
-        public Perception(PerceptionModel perceptionId, double beliefValue, double certainty) : this(perceptionId)
+        public Perception(PerceptionModel perceptionId, double beliefValue, double certainty,
+            XmlPersistentCollectionHolder<string, Agent, AgentsManager> affectedAgents,
+            XmlPersistentCollectionHolder<string, Agent, AgentsManager> targetTrustees,
+            XmlPersistentCollectionHolder<string, FeatureModel, FeaturesManager> featuresToSpawn,
+            BeliefType typeOfBelief) : this(perceptionId)
         {
             BeliefValue = beliefValue;
             Certainty = certainty;
+            AffectedAgents = affectedAgents;
+            TargetTrustees = targetTrustees;
+            FeaturesToSpawn = featuresToSpawn;
+            TypeOfBeliefSource = TypeOfBeliefSource;
         }
 
         [XmlIgnore]

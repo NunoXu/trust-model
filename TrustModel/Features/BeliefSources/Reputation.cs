@@ -11,36 +11,7 @@ namespace TrustModel.Features.BeliefSources
     {
         public Trustee trustee;
 
-        public override double BeliefValue
-        {
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override double BeliefValue
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override double Certainty
-        {
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override double Certainty
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override double BeliefValue { get; set; }
+        public override double Certainty { get; set; }
     }
 }

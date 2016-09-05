@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using TrustModel.Actions;
 using TrustModel.Features;
 using TrustModel.Trust_Calculation_Methods;
 using TrustModel.Util;
@@ -47,7 +49,7 @@ namespace TrustModel
 
 
         [XmlElement(Order = 2)]
-        public ObservableDictionary<string, Trustee> Trustees { get; set; } = new ObservableDictionary<string, Trustee>();
+        public SerializableDictionary<string, Trustee> Trustees { get; set; } = new SerializableDictionary<string, Trustee>();
 
         [XmlIgnore]
         public bool Deleted { get; set; } = false;
@@ -60,7 +62,7 @@ namespace TrustModel
             AddEventHandlers();
         }
 
-        public Dictionary<string, double> TrusteeTrustValues(Agent targetAgent, Action action, TrustFunction[] trustFunctions)
+        public Dictionary<string, double> TrusteeTrustValues(Agent targetAgent, TrustAction action, TrustFunction[] trustFunctions)
         {
             Dictionary<string, double> result = new Dictionary<string, double>();
 
@@ -77,8 +79,8 @@ namespace TrustModel
 
         public void AddTrustee(Trustee trustee)
         {
-            Trustees.Add(trustee.AgentName, trustee);
-            trustee.Agent.PropertyChanged += OnAgentNameChanged;
+            Trustees.Add(trustee.Agent.Key, trustee);
+            trustee.PropertyChanged += OnAgentNameChanged;
         }
 
         private void OnAgentNameChanged(object sender, PropertyChangedEventArgs e)
@@ -95,6 +97,7 @@ namespace TrustModel
                     AddTrustee(trustee);
                 }
             }
+            OnPropertyChanged("Trustee");
         }
 
         public IReadOnlyDictionary<string, Trustee> GetTrustees()
@@ -127,10 +130,17 @@ namespace TrustModel
 
         private void AddEventHandlers()
         {
+            ((INotifyCollectionChanged)Trustees).CollectionChanged += TrusteesChanged;
+
             foreach (Trustee trustee in Trustees.Values)
-                trustee.Agent.PropertyChanged += OnAgentNameChanged;
+                trustee.PropertyChanged += OnAgentNameChanged;
         }
-        
+
+        private void TrusteesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("Trustees");
+        }
+
         public void UpdateTrustees(IEnumerable<Agent> trustees, IEnumerable<Feature> features)
         {
             foreach(Agent trustee in trustees)
@@ -139,6 +149,7 @@ namespace TrustModel
                 if (targetTrustee == null)
                 {
                     targetTrustee = new Trustee(trustee);
+                    AddTrustee(targetTrustee);
                 }
                 foreach (Feature feature in features)
                 {

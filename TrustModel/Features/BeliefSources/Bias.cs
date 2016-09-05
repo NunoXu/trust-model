@@ -9,11 +9,17 @@ namespace TrustModel.Features.BeliefSources
 {
     public class Bias : BeliefSource
     {
-        private double _beliefValue;
-        private double _certainty;
+        
         private DateTime _contactTime;
 
-        public override double BeliefValue => _beliefValue;
-        public override double Certainty => _certainty;
+        public override double BeliefValue { get; set; }
+        public override double Certainty { get; set; }
+
+        public Bias() : base() { }
+        public Bias(double beliefValue, double certainty) :this()
+        {
+            BeliefValue = beliefValue;
+            Certainty = certainty;
+        }
     }
 }

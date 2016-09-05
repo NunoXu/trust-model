@@ -38,7 +38,7 @@ namespace TrustModel.Util
         }
 
         [XmlElement("Item")]
-        public virtual ObservableCollection<M> KeyList { get; set; }
+        public virtual ObservableCollection<M> KeyList { get; set; } = new ObservableCollection<M>();
 
 
         protected void RetrieveTrueValues()

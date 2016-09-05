@@ -14,7 +14,9 @@ namespace TrustModel.Features
 {
     public class Category : INotifyPropertyChanged, IKeyedResource<string>
     {
+        [XmlIgnore]
         private string _name = Guid.NewGuid().ToString();
+
         public string Name { get { return _name; } set { _name = value; NotifyPropertyChanged(); NotifyPropertyChanged("Key"); } }
 
         [XmlIgnore]

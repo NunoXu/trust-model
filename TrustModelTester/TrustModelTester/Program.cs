@@ -5,7 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrustModel;
+using TrustModel.Actions;
 using TrustModel.Features;
+using TrustModel.Perceptions;
+using TrustModel.Trust_Calculation_Methods;
 
 namespace TrustModelTester
 {
@@ -14,20 +17,35 @@ namespace TrustModelTester
         static void Main(string[] args)
         {
             TrustModelManager model = new TrustModelManager();
-            var bob = new Agent("BOB");
-            Singleton<AgentsManager>.Instance.Agents.Add(bob);
-            var ana = new Agent("Ana");
+            /*var ana = new Agent("Ana");
             Singleton<AgentsManager>.Instance.Agents.Add(ana);
-            var t = new Trustee(ana);
-            bob.AddTrustee(t);
-            Singleton<AgentsManager>.Instance.Save();
+            var bob = new Agent("Bob");
+            Singleton<AgentsManager>.Instance.Agents.Add(bob);
 
-            Singleton<FeaturesManager>.Instance.Features.Add(new FeatureModel("A", new Category()));
-            Singleton<FeaturesManager>.Instance.Save();
-            /*foreach(Feature feature in FeaturesManager.Instance.Features.List)
-            {
-                
-            }*/
+            var cat = new Category("Ability");
+            Singleton<CategoriesManager>.Instance.Categories.Add(cat);
+
+            var feature = new FeatureModel("Cooking", cat);
+            Singleton<FeaturesManager>.Instance.Features.Add(feature);
+
+            var perceptionModel = new PerceptionModel("Saw Cooking");
+            perceptionModel.AffectedAgents.List.Add(ana);
+            perceptionModel.TargetTrustees.List.Add(bob);
+            perceptionModel.FeaturesToSpawn.List.Add(feature);
+
+            var perception = perceptionModel.SpawnFeature(10, 1);
+            perception.UpdateModel();
+            
+            */ 
+            Agent ana = Singleton<AgentsManager>.Instance.Agents["Ana"];
+            Agent bob = Singleton<AgentsManager>.Instance.Agents["Bob"];
+
+            var feature = Singleton<FeaturesManager>.Instance.Features["Cooking"];
+            TrustAction action = new TrustAction("Cooking");
+            action.AddFeature(feature, 1);
+
+            var a = ana.TrusteeTrustValues(bob, action,  new[] { new SimpleLinear() } );
+            
         }
     }
 }

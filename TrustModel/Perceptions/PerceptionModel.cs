@@ -46,14 +46,19 @@ namespace TrustModel.Perceptions
             _name = Guid.NewGuid().ToString();
         }
 
-        public XmlPersistentCollectionHolder<string, Agent, AgentsManager> AffectedAgents { get; set; }
-        public XmlPersistentCollectionHolder<string, Agent, AgentsManager> TargetTrustees { get; set; }
-        public XmlPersistentCollectionHolder<string, FeatureModel, FeaturesManager> FeaturesToSpawn { get; set; }
-        public BeliefType TypeOfBeliefSource { get; set; }
-        
-        public Perception SpawnFeature(double beliefValue, double certainty)
+        public PerceptionModel(string name)
         {
-            return new Perception(this, beliefValue, certainty);
+            _name = name;
+        }
+
+        public XmlPersistentCollectionHolder<string, Agent, AgentsManager> AffectedAgents { get; set; } = new XmlPersistentCollectionHolder<string, Agent, AgentsManager>();
+        public XmlPersistentCollectionHolder<string, Agent, AgentsManager> TargetTrustees { get; set; } = new XmlPersistentCollectionHolder<string, Agent, AgentsManager>();
+        public XmlPersistentCollectionHolder<string, FeatureModel, FeaturesManager> FeaturesToSpawn { get; set; } = new XmlPersistentCollectionHolder<string, FeatureModel, FeaturesManager>();
+        public BeliefType TypeOfBeliefSource { get; set; } = BeliefType.DirectContact;
+        
+        public Perception SpawnPerception(double beliefValue, double certainty)
+        {
+            return new Perception(this, beliefValue, certainty, AffectedAgents, TargetTrustees, FeaturesToSpawn, TypeOfBeliefSource);
         }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrustModel.Actions;
 
 namespace TrustModel.Trust_Calculation_Methods
 {
@@ -17,7 +18,7 @@ namespace TrustModel.Trust_Calculation_Methods
         }
 
 
-        public abstract double CalculateTrust(Agent trustor, Trustee trustee, Action action);
+        public abstract double CalculateTrust(Agent trustor, Trustee trustee, TrustAction action);
 
         public override string ToString()
         {

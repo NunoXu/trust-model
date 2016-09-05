@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -8,21 +9,33 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using TrustModel.Features.BeliefSources;
+using TrustModel.Util;
 
 namespace TrustModel.Features
 {
+    [Serializable]
     public class Feature: INotifyPropertyChanged
     {
+        [XmlElement("BeliefSource")]
         public ObservableCollection<BeliefSource> BeliefSources = new ObservableCollection<BeliefSource>();
 
-        public FeatureModel FeatureID { get; set; }
+        public XmlPersistentHolder<FeatureModel, string, FeaturesManager> FeatureID { get; set; }
 
-        public Feature (FeatureModel featureID)
-        {
-            FeatureID = featureID;
+        public Feature() : base() {
+            ((INotifyCollectionChanged)BeliefSources).CollectionChanged += BeliefSourcesChanged;
         }
 
-        public double beliefValue
+        private void BeliefSourcesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            NotifyPropertyChanged("BeliefSources");
+        }
+
+        public Feature (FeatureModel featureID) : this()
+        {
+            FeatureID = new XmlPersistentHolder<FeatureModel, string, FeaturesManager>(featureID);
+        }
+
+        public double BeliefValue
         {
             get
             {
@@ -54,7 +67,7 @@ namespace TrustModel.Features
         {
             foreach(BeliefSource beliefSource in beliefSources)
             {
-                beliefSources.Add(beliefSource);
+                BeliefSources.Add(beliefSource);
             }
         }
     }

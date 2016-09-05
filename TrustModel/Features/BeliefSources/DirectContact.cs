@@ -3,24 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace TrustModel.Features.BeliefSources
 {
+    [Serializable]
     public class DirectContact : BeliefSource
     {
-
-        private double _beliefValue;
-        private double _certainty;
+        
+        [XmlIgnore]
         private DateTime _contactTime;
     
-        public override double BeliefValue => _beliefValue;
-        public override double Certainty => _certainty;
+        [XmlElement("BeliefValue")]
+        public override double BeliefValue { get; set; }
 
-        public DirectContact(double beliefValue, double certainty)
+        [XmlElement("Certainty")]
+        public override double Certainty { get; set; }
+
+        public DirectContact() : base() { }
+
+        public DirectContact(double beliefValue, double certainty) : this()
         {
-            this._beliefValue = beliefValue;
+            this.BeliefValue = beliefValue;
             this._contactTime = DateTime.Now;
-            this._certainty = certainty;
+            this.Certainty = certainty;
         }
     }
 }

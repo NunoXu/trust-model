@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -12,9 +15,16 @@ using TrustModel.Features.BeliefSources;
 namespace TrustModel
 {
     [Serializable]
-    public class Trustee
+    public class Trustee : INotifyPropertyChanged
     {
-        public ObservableCollection<Feature> features { get; set; } = new ObservableCollection<Feature>();
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        private void OnPropertyChanged([CallerMemberName] string property = "")
+        {
+            PropertyChanged(this, new PropertyChangedEventArgs(property));
+        }
+
+        [XmlElement("Feature")]
+        public ObservableCollection<Feature> Features { get; set; } = new ObservableCollection<Feature>();
         
 
         [XmlIgnore]
@@ -27,7 +37,7 @@ namespace TrustModel
             get
             {
                 if (_agent == null)
-                    _agent = Singleton<AgentsManager>.Instance.Agents[AgentName];
+                    Agent = Singleton<AgentsManager>.Instance.Agents[AgentName];
                 return _agent;
             }
 
@@ -35,6 +45,7 @@ namespace TrustModel
             {
                 _agent = value;
                 AgentName = _agent.Name;
+                OnPropertyChanged();
             }
         }
 
@@ -50,6 +61,7 @@ namespace TrustModel
             set
             {
                 _agentName = value;
+                OnPropertyChanged();
             }
         }
 
@@ -57,25 +69,32 @@ namespace TrustModel
         public Trustee (Agent agent)
         {
             AgentName = agent.Name;
+
+            ((INotifyCollectionChanged)Features).CollectionChanged += FeaturesChanged;
+        }
+
+        private void FeaturesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged("Trustees");
         }
 
         public void UpdateFeature(Feature feature)
         {
             Feature targetFeature;
-            if (!features.Contains(feature, new FeatureComparer())) {
-                features.Add(feature);
+            if (!Features.Contains(feature, new FeatureComparer())) {
+                Features.Add(feature);
                 targetFeature = feature;
             } else
             {
-                targetFeature = features.FirstOrDefault(x => x.FeatureID.Equals(feature.FeatureID));
+                targetFeature = Features.FirstOrDefault(x => x.FeatureID.Equals(feature.FeatureID));
+                targetFeature.AddBeliefSources(feature.BeliefSources);
             }
 
-            targetFeature.AddBeliefSources(feature.BeliefSources);
         }
 
         public void AddFeatures(Feature feature)
         {
-            features.Add(feature);
+            Features.Add(feature);
         }
 
         private class FeatureComparer : IEqualityComparer<Feature>
